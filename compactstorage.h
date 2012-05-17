@@ -38,6 +38,7 @@ class CompactStorage
 		int readInt(int bits);
 		bool readBool();
 
+		char* getContent(int & length);
 		void reset();
 
 	private:

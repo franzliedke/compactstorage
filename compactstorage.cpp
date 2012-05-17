@@ -160,6 +160,16 @@ bool CompactStorage::readBool()
     return (byte & mask) > 0;
 }
 
+char* CompactStorage::getContent(int & length)
+{
+	char* result = new char[m_numBytes];
+	*result = *m_bytes;
+	
+	length = m_numBytes;
+	
+	return result;
+}
+
 void CompactStorage::reset()
 {
     m_curPos = 0;
