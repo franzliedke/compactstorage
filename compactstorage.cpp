@@ -47,6 +47,10 @@ CompactStorage::~CompactStorage()
 void CompactStorage::allocateBytes(int numberOfBytes)
 {
 	m_bytes = new char[numberOfBytes];
+
+	for (int i = 0; i < numberOfBytes; i++) {
+		m_bytes[i] = '\0';
+	}
 }
 
 void CompactStorage::freeBytes()
@@ -56,11 +60,13 @@ void CompactStorage::freeBytes()
 
 void CompactStorage::reallocateBytes(int numberOfBytes)
 {
+	char* temp = new char[numberOfBytes];
+	for (int i = 0; i < m_numBytes; i++) {
+		temp[i] = m_bytes[i];
+	}
+	freeBytes();
+	m_bytes = temp;
 	m_numBytes = numberOfBytes;
-    char* temp = new char[numberOfBytes];
-    *temp = *m_bytes;
-    freeBytes();
-    m_bytes = temp;
 }
 
 void CompactStorage::ensureRoomFor(int bits)
