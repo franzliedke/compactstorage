@@ -109,19 +109,19 @@ void CompactStorage::writeInt(int value, int bits)
 	ensureRoomFor(bits);
 
 	// Iterate over the data bits that we need to set
-	for (int i = curBit(); i < curBit() + bits; i++) {
-		int byte = i / 8;
-		int bit = i % 8;
+	for (int i = 0; i < bits; i++) {
+		int byte = curByte();
+		int bit = curBit();
 
 		// Create bitmask for the correspondent bit of the integer to store here
-		int mask = 1 << (bits + curBit() - i - 1);
+		int mask = 1 << (bits - i - 1);
 
 		// Whether to set the current bit or not
 		bool set = (bool) (value & mask);
-		m_bytes[byte] |= (int) set << (7 - bit);
+		m_bytes[byte] |= (char) set << (7 - bit);
+		m_curPos++;
 	}
 
-	m_curPos += bits;
 	m_usedBits += bits;
 }
 
@@ -141,19 +141,19 @@ int CompactStorage::readInt(int bits)
 	int value = 0;
 
 	// Iterate over the data bits that we need to set
-	for (int i = curBit(); i < curBit() + bits; i++) {
-		int byte = i / 8;
-		int bit = i % 8;
+	for (int i = 0; i < bits; i++) {
+		int byte = curByte();
+		int bit = curBit();
 
 		// Create bitmask for the correspondent bit of the data that we want to read
 		int mask = 1 << (7 - bit);
 
 		// Whether to set the current bit or not
 		bool set = (bool) (m_bytes[byte] & mask);
-		value |= (int) set << (bits + curBit() - i - 1);
+		value |= (int) set << (bits - i - 1);
+		m_curPos++;
 	}
 
-	m_curPos += bits;
 	return value;
 }
 
