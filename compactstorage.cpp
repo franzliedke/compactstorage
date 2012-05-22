@@ -29,19 +29,19 @@ using namespace std;
 
 CompactStorage::CompactStorage(int numberOfBytes)
 {
-    if (numberOfBytes < 1) {
-        numberOfBytes = 1;
-    }
+	if (numberOfBytes < 1) {
+		numberOfBytes = 1;
+	}
 
-    m_numBytes = numberOfBytes;
-    m_usedBits = 0;
-    m_curPos = 0;
-    allocateBytes(numberOfBytes);
+	m_numBytes = numberOfBytes;
+	m_usedBits = 0;
+	m_curPos = 0;
+	allocateBytes(numberOfBytes);
 }
 
 CompactStorage::~CompactStorage()
 {
-    freeBytes();
+	freeBytes();
 }
 
 void CompactStorage::allocateBytes(int numberOfBytes)
@@ -51,7 +51,7 @@ void CompactStorage::allocateBytes(int numberOfBytes)
 
 void CompactStorage::freeBytes()
 {
-    delete[] m_bytes;
+	delete[] m_bytes;
 }
 
 void CompactStorage::reallocateBytes(int numberOfBytes)
@@ -66,10 +66,10 @@ void CompactStorage::reallocateBytes(int numberOfBytes)
 void CompactStorage::ensureRoomFor(int bits)
 {
 	cout << "make sure we have room for " << bits << " bits..." << endl;
-    int newLength = m_usedBits + bits;
-    if (newLength > m_numBytes * 8) {
-        reallocateBytes(newLength / 8 + 1);
-    }
+	int newLength = m_usedBits + bits;
+	if (newLength > m_numBytes * 8) {
+		reallocateBytes(newLength / 8 + 1);
+	}
 }
 
 int CompactStorage::curByte()
@@ -153,24 +153,24 @@ int CompactStorage::readInt(int bits)
 
 bool CompactStorage::readBool()
 {
-    unsigned int byte = m_bytes[curByte()];
-    unsigned int mask = 1 << (7 - curBit());
+	unsigned int byte = m_bytes[curByte()];
+	unsigned int mask = 1 << (7 - curBit());
 
-    m_curPos += 1;
-    return (byte & mask) > 0;
+	m_curPos += 1;
+	return (byte & mask) > 0;
 }
 
 char* CompactStorage::getContent(int & length)
 {
 	char* result = new char[m_numBytes];
 	*result = *m_bytes;
-	
+
 	length = m_numBytes;
-	
+
 	return result;
 }
 
 void CompactStorage::reset()
 {
-    m_curPos = 0;
+	m_curPos = 0;
 }
