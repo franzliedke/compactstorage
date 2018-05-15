@@ -64,8 +64,8 @@ void CompactStorage::freeBytes()
 void CompactStorage::reallocateBytes(int numberOfBytes)
 {
 	char* temp = new char[numberOfBytes];
-  // was getting mistakes without this using writeBool because it would get memory garbage
-  	memset(temp, 0, numberOfBytes);
+	memset(temp, 0, numberOfBytes);
+
 	for (int i = 0; i < m_numBytes; i++) {
 		temp[i] = m_bytes[i];
 	}
@@ -109,13 +109,13 @@ void CompactStorage::dump()
 	cout << "^" << endl;
 }
 
-// dump storage in a file
+// Dump storage to a file
 void CompactStorage::dump(fstream* fd)
 {
-  for (int curByte = 0; curByte < m_numBytes; curByte++) {
+	for (int curByte = 0; curByte < m_numBytes; curByte++) {
 		char str = m_bytes[curByte];
-    fd->write(&str, 1);
-  }
+		fd->write(&str, 1);
+	}
 }
 
 void CompactStorage::writeInt(int value, int bits)
@@ -141,8 +141,7 @@ void CompactStorage::writeInt(int value, int bits)
 
 void CompactStorage::writeBool(bool value)
 {
-	// let's make sure we have space
-  	ensureRoomFor(1);
+	ensureRoomFor(1);
 	char byte = m_bytes[curByte()];
 	byte |= (int) value << (7 - curBit());
 	m_bytes[curByte()] = byte;
