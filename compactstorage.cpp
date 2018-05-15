@@ -104,6 +104,15 @@ void CompactStorage::dump()
 	cout << "^" << endl;
 }
 
+// dump storage in a file
+void CompactStorage::dump(fstream* fd)
+{
+  for (int curByte = 0; curByte < m_numBytes; curByte++) {
+		char str = m_bytes[curByte];
+    fd->write(&str, 1);
+  }
+}
+
 void CompactStorage::writeInt(int value, int bits)
 {
 	ensureRoomFor(bits);
