@@ -21,6 +21,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include <fstream>
 #ifndef _COMPACTSTORAGE_H
 #define _COMPACTSTORAGE_H
 
@@ -31,6 +32,7 @@ class CompactStorage
 		~CompactStorage();
 
 		void dump();
+		void dump(std::fstream* fd);
 
 		void writeInt(int value, int bits);
 		void writeBool(bool value);
